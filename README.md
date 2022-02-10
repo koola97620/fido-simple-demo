@@ -22,8 +22,9 @@ Versions
 - [ ] /fido2/auth/response
 
 ### View
-- [ ] ID 입력화면 (Thymeleaf)
-- [ ] 보안키 인증화면 (Javascript, Web Authentication API)
+- [x] ID 입력화면
+- [x] 등록 (Javascript, Web Authentication API)
+- [ ] 인증 (Javascript, Web Authentication API)
 
 
 ## 참고
