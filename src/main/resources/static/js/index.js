@@ -60,7 +60,7 @@ function enableControls() {
 
 function getRegChallenge(serverPublicKeyCredentialCreationOptionsRequest) {
     logObject("Get reg challenge", serverPublicKeyCredentialCreationOptionsRequest);
-    return rest_post("/attestation/options", serverPublicKeyCredentialCreationOptionsRequest)
+    return rest_post("/rp/attestation/options", serverPublicKeyCredentialCreationOptionsRequest)
         .then(response => {
             logObject("Get reg challenge response", response);
             if (response.status !== 'ok') {
@@ -107,7 +107,7 @@ function createCredential(options) {
             logVariable("response.transports", attestation.response.transports);
             logVariable("id", attestation.type);
 
-            return rest_post("/attestation/result", attestation);
+            return rest_post("/rp/attestation/result", attestation);
         })
         .catch(function(error) {
             logVariable("create credential error", error);
