@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Optional;
 
-@Profile("!test")
+//@Profile("!test")
 @Configuration
 public class EmbeddedRedisConfig {
 

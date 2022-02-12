@@ -24,7 +24,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@ExtendWith(SpringExtension.class)
 @DisplayName("첼린지 생성")
 class ChallengeApiTest extends  AcceptanceTest {
     @Autowired

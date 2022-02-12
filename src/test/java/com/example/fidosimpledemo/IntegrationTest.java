@@ -8,11 +8,11 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class IntegrationTest {
-//    @Autowired
-//    private DatabaseCleanup databaseCleanup;
-//
-//    @BeforeEach
-//    void setUp() {
-//        databaseCleanup.execute();
-//    }
+    @Autowired
+    private DatabaseCleanup databaseCleanup;
+
+    @BeforeEach
+    void setUp() {
+        databaseCleanup.execute();
+    }
 }
