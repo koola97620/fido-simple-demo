@@ -4,12 +4,16 @@ package com.example.fidosimpledemo.rpserver.domain;
 import com.example.fidosimpledemo.common.crypto.Digests;
 import com.example.fidosimpledemo.rpserver.dto.ServerPublicKeyCredentialCreationOptionsRequest;
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.ObjectUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+@Getter
+@NoArgsConstructor
 public class ServerPublicKeyCredentialUserEntity {
     @NotNull
     @Length(min = 1, max = 64)
@@ -24,8 +28,12 @@ public class ServerPublicKeyCredentialUserEntity {
 
     public static ServerPublicKeyCredentialUserEntity of(ServerPublicKeyCredentialCreationOptionsRequest request) {
         return new ServerPublicKeyCredentialUserEntity(request.getLoginId());
-
     }
+
+    public static ServerPublicKeyCredentialUserEntity of(String loginId) {
+        return new ServerPublicKeyCredentialUserEntity(loginId);
+    }
+
 
     private String createUserId(String username) {
         if (ObjectUtils.isEmpty(username)) {

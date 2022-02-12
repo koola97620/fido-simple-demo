@@ -1,6 +1,6 @@
 package com.example.fidosimpledemo.rpserver.api;
 
-import com.example.fidosimpledemo.rpserver.app.ChallengeService;
+import com.example.fidosimpledemo.rpserver.app.GetChallengeService;
 import com.example.fidosimpledemo.rpserver.dto.ServerPublicKeyCredentialCreationOptionsRequest;
 import com.example.fidosimpledemo.rpserver.dto.ServerPublicKeyCredentialCreationOptionsResponse;
 import org.springframework.http.HttpHeaders;
@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class AdapterApi {
 
-    private final ChallengeService challengeService;
+    private final GetChallengeService getChallengeService;
 
-    public AdapterApi(ChallengeService challengeService) {
-        this.challengeService = challengeService;
+    public AdapterApi(GetChallengeService getChallengeService) {
+        this.getChallengeService = getChallengeService;
     }
 
     @PostMapping("/rp/attestation/options")
@@ -26,7 +26,7 @@ public class AdapterApi {
             @RequestBody ServerPublicKeyCredentialCreationOptionsRequest request,
             HttpServletResponse httpServletResponse) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        challengeService.getChallenge(host,request,httpHeaders);
+        getChallengeService.getChallenge(host,request,httpHeaders);
         return null;
     }
 }

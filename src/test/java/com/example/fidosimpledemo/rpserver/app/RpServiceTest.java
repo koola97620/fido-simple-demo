@@ -1,16 +1,21 @@
 package com.example.fidosimpledemo.rpserver.app;
 
+import com.example.fidosimpledemo.AcceptanceTest;
 import com.example.fidosimpledemo.IntegrationTest;
 import com.example.fidosimpledemo.rpserver.domain.Rp;
 import com.example.fidosimpledemo.rpserver.exception.NotFoundRpHostNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class RpServiceTest extends IntegrationTest {
+@ExtendWith(SpringExtension.class)
+class RpServiceTest extends AcceptanceTest {
     @Autowired
     private RpService rpService;
     @Autowired

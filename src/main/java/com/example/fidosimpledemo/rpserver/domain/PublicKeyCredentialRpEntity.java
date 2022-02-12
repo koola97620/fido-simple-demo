@@ -1,5 +1,10 @@
 package com.example.fidosimpledemo.rpserver.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class PublicKeyCredentialRpEntity {
     private String name;
     private String icon;

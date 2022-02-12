@@ -11,12 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ChallengeService {
+public class GetChallengeService {
 
     private final RpService rpService;
     private final FidoApiClient fidoApiClient;
 
-    public ChallengeService(RpService rpService, FidoApiClient fidoApiClient) {
+    public GetChallengeService(RpService rpService, FidoApiClient fidoApiClient) {
         this.rpService = rpService;
         this.fidoApiClient = fidoApiClient;
     }
