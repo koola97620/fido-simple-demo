@@ -13,19 +13,15 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DisplayName("첼린지 생성")
-class ChallengeApiTest extends  AcceptanceTest {
+class ChallengeApiTest extends AcceptanceTest {
     @Autowired
     private RpHelper rpHelper;
     private Rp savedRp;
@@ -42,19 +38,9 @@ class ChallengeApiTest extends  AcceptanceTest {
     @DisplayName("성공")
     @Test
     void success() {
-        RegOptionRequest request = RegOptionRequest.builder()
-                .rp(PublicKeyCredentialRpEntity.of(savedRp))
-                .user(user)
-                .build();
+        RegOptionRequest request = 요청_생성(savedRp, user);
 
-        ExtractableResponse<Response> result = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when().post("/fido2/req/challenge")
-                .then().log().all()
-                .extract();
-
+        ExtractableResponse<Response> result = 첼린지_생성_요청(request);
 
         assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
         RegOptionResponse response = result.as(RegOptionResponse.class);
@@ -62,25 +48,33 @@ class ChallengeApiTest extends  AcceptanceTest {
         assertThat(response.getChallenge()).isNotNull();
     }
 
+    @DisplayName("요청에 null 있을시 에러 발생")
     @Test
     void missRequest() {
-        RegOptionRequest request = RegOptionRequest.builder()
-                .rp(PublicKeyCredentialRpEntity.of(savedRp))
-                .user(null)
-                .build();
+        RegOptionRequest request = 요청_생성(savedRp, null);
 
-        ExtractableResponse<Response> result = RestAssured
+        ExtractableResponse<Response> result = 첼린지_생성_요청(request);
+
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        String error = result.jsonPath().get("error");
+        assertThat(error).isEqualTo("Bad Request");
+    }
+
+    private RegOptionRequest 요청_생성(Rp rp, ServerPublicKeyCredentialUserEntity user) {
+        return RegOptionRequest.builder()
+                .rp(PublicKeyCredentialRpEntity.of(rp))
+                .user(user)
+                .build();
+    }
+
+    private ExtractableResponse<Response> 첼린지_생성_요청(RegOptionRequest request) {
+        return RestAssured
                 .given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when().post("/fido2/req/challenge")
                 .then().log().all()
                 .extract();
-
-
-        assertThat(result.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        String error = result.jsonPath().get("error");
-        assertThat(error).isEqualTo("Bad Request");
     }
 
 }
