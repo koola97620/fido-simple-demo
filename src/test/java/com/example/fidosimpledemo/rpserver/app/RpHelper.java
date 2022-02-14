@@ -1,7 +1,7 @@
 package com.example.fidosimpledemo.rpserver.app;
 
-import com.example.fidosimpledemo.rpserver.domain.Rp;
-import com.example.fidosimpledemo.rpserver.domain.RpRepository;
+import com.example.fidosimpledemo.fidoserver.domain.RpEntity;
+import com.example.fidosimpledemo.fidoserver.domain.RpRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +15,8 @@ public class RpHelper {
         this.rpRepository = rpRepository;
     }
 
-    public Rp save(Rp rp) {
-        return rpRepository.save(rp);
+    public RpEntity save(RpEntity rpEntity) {
+        return rpRepository.save(rpEntity);
     }
 
 }

@@ -20,4 +20,7 @@ public class RegOptionRequest {
     @NotNull
     @Valid
     private ServerPublicKeyCredentialUserEntity user;
+    private AuthenticatorSelectionCriteria authenticatorSelection;
+    private AttestationConveyancePreference attestation;
+    private CredProtect credProtect;
 }

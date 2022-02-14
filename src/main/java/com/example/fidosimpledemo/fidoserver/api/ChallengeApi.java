@@ -20,10 +20,8 @@ public class ChallengeApi {
 
     @PostMapping("/fido2/req/challenge")
     public RegOptionResponse getChallenge(@Valid  @RequestBody RegOptionRequest regOptionRequest) {
-
-        return RegOptionResponse.builder()
-                .challenge("new challenge")
-                .sessionId("temp session Id")
-                .build();
+        RegOptionResponse challenge = createChallengeService.getChallenge(regOptionRequest);
+        System.out.println(challenge);
+        return challenge;
     }
 }

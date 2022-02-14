@@ -1,9 +1,9 @@
 package com.example.fidosimpledemo.fidoserver.api;
 
 import com.example.fidosimpledemo.AcceptanceTest;
+import com.example.fidosimpledemo.fidoserver.domain.RpEntity;
 import com.example.fidosimpledemo.rpserver.app.RpHelper;
 import com.example.fidosimpledemo.rpserver.domain.PublicKeyCredentialRpEntity;
-import com.example.fidosimpledemo.rpserver.domain.Rp;
 import com.example.fidosimpledemo.rpserver.domain.ServerPublicKeyCredentialUserEntity;
 import com.example.fidosimpledemo.rpserver.dto.RegOptionRequest;
 import com.example.fidosimpledemo.rpserver.dto.RegOptionResponse;
@@ -24,21 +24,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ChallengeApiTest extends AcceptanceTest {
     @Autowired
     private RpHelper rpHelper;
-    private Rp savedRp;
+    private RpEntity savedRpEntity;
     private ServerPublicKeyCredentialUserEntity user;
 
     @BeforeEach
     public void setUp() {
         super.setUp();
 
-        savedRp = rpHelper.save(Rp.builder().name("localhost").description("test").build());
+        savedRpEntity = rpHelper.save(RpEntity.builder().id("localhost").description("test").build());
         user = ServerPublicKeyCredentialUserEntity.of("testId");
     }
 
     @DisplayName("성공")
     @Test
     void success() {
-        RegOptionRequest request = 요청_생성(savedRp, user);
+        RegOptionRequest request = 요청_생성(savedRpEntity, user);
 
         ExtractableResponse<Response> result = 첼린지_생성_요청(request);
 
@@ -51,7 +51,7 @@ class ChallengeApiTest extends AcceptanceTest {
     @DisplayName("요청에 null 있을시 에러 발생")
     @Test
     void missRequest() {
-        RegOptionRequest request = 요청_생성(savedRp, null);
+        RegOptionRequest request = 요청_생성(savedRpEntity, null);
 
         ExtractableResponse<Response> result = 첼린지_생성_요청(request);
 
@@ -60,9 +60,11 @@ class ChallengeApiTest extends AcceptanceTest {
         assertThat(error).isEqualTo("Bad Request");
     }
 
-    private RegOptionRequest 요청_생성(Rp rp, ServerPublicKeyCredentialUserEntity user) {
+    private RegOptionRequest 요청_생성(RpEntity rpEntity, ServerPublicKeyCredentialUserEntity user) {
+        PublicKeyCredentialRpEntity publicKeyCredentialRpEntity = new PublicKeyCredentialRpEntity();
+        publicKeyCredentialRpEntity.setId(rpEntity.getId());
         return RegOptionRequest.builder()
-                .rp(PublicKeyCredentialRpEntity.of(rp))
+                .rp(publicKeyCredentialRpEntity)
                 .user(user)
                 .build();
     }
