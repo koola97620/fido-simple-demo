@@ -39,8 +39,9 @@ class ChallengeApiTest extends  AcceptanceTest {
         user = ServerPublicKeyCredentialUserEntity.of("testId");
     }
 
+    @DisplayName("성공")
     @Test
-    void test() {
+    void success() {
         RegOptionRequest request = RegOptionRequest.builder()
                 .rp(PublicKeyCredentialRpEntity.of(savedRp))
                 .user(user)
@@ -59,6 +60,27 @@ class ChallengeApiTest extends  AcceptanceTest {
         RegOptionResponse response = result.as(RegOptionResponse.class);
         assertThat(response.getSessionId()).isNotNull();
         assertThat(response.getChallenge()).isNotNull();
+    }
+
+    @Test
+    void missRequest() {
+        RegOptionRequest request = RegOptionRequest.builder()
+                .rp(PublicKeyCredentialRpEntity.of(savedRp))
+                .user(null)
+                .build();
+
+        ExtractableResponse<Response> result = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post("/fido2/req/challenge")
+                .then().log().all()
+                .extract();
+
+
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        String error = result.jsonPath().get("error");
+        assertThat(error).isEqualTo("Bad Request");
     }
 
 }
