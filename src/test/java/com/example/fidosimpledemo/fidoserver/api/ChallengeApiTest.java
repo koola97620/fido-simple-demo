@@ -31,7 +31,7 @@ class ChallengeApiTest extends AcceptanceTest {
     public void setUp() {
         super.setUp();
 
-        savedRpEntity = rpHelper.save(RpEntity.builder().id("localhost").description("test").build());
+        savedRpEntity = rpHelper.save(RpEntity.builder().id("localhost").name("test").description("test").build());
         user = ServerPublicKeyCredentialUserEntity.of("testId");
     }
 

@@ -26,6 +26,7 @@ class RpEntityQueryServiceTest extends AcceptanceTest {
         helper.save(
                 RpEntity.builder()
                         .id("localhost")
+                        .name("test")
                         .description("test")
                         .build()
         );
@@ -39,7 +40,7 @@ class RpEntityQueryServiceTest extends AcceptanceTest {
     @DisplayName("rp가 등록되어 있지 않을 때 예외 발생")
     @Test
     void notPresent() {
-        helper.save(RpEntity.builder().id("localhost").description("test").build());
+        helper.save(RpEntity.builder().id("localhost").name("test").description("test").build());
 
         assertThatThrownBy(() -> rpQueryService.getRpEntity("github.com:8080"))
                 .isInstanceOf(NotFoundRpHostNameException.class);
