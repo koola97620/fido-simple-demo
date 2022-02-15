@@ -5,9 +5,6 @@ import com.example.fidosimpledemo.common.crypto.Digests;
 import com.example.fidosimpledemo.rpserver.dto.ServerPublicKeyCredentialCreationOptionsRequest;
 import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.ObjectUtils;
 
@@ -15,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Data
-public class ServerPublicKeyCredentialUserEntity extends PublicKeyCredentialEntity{
+public class ServerPublicKeyCredentialUserEntity extends PublicKeyCredentialEntity {
     @NotNull
     @Length(min = 1, max = 64)
     private String id;  //base64url encoded
