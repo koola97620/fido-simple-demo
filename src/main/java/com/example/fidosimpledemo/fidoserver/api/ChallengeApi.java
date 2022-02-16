@@ -21,7 +21,6 @@ public class ChallengeApi {
     @PostMapping("/fido2/req/challenge")
     public RegOptionResponse getChallenge(@Valid  @RequestBody RegOptionRequest regOptionRequest) {
         RegOptionResponse challenge = createChallengeService.getChallenge(regOptionRequest);
-        System.out.println(challenge);
         return challenge;
     }
 }

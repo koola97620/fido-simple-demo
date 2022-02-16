@@ -12,8 +12,8 @@ Versions
   - userId 생성
 - [x] /fido2/req/challenge
   - challenge 생성
-- [ ] /rpEntity/attestation/result
-- [ ] /fido2/req/response
+- [x] /rpEntity/attestation/result
+- [x] /fido2/req/response
 
 ### 인증 api
 - [ ] /rpEntity/assertion/options

@@ -39,7 +39,8 @@ public class PublicKeyUtil {
         BigInteger yBig = new BigInteger(1, y);
         ECPoint point = new ECPoint(xBig, yBig);
         ECPublicKeySpec pubKeySpec = new ECPublicKeySpec(point, params);
-        KeyFactory keyFactory = KeyFactory.getInstance("ECDSA");
+        KeyFactory keyFactory = KeyFactory.getInstance("EC");
+        //KeyFactory keyFactory = KeyFactory.getInstance("ECDSA");
         return keyFactory.generatePublic(pubKeySpec);
     }
 

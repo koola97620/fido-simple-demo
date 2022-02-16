@@ -47,11 +47,17 @@ public class RegistrationService {
 //            attestationService.verifyAttestationCertificate(attestationObject, attestationVerificationResult);
 //        }
 
-        return getRegisterCredentialResult(session.getRegOptionResponse(), attestationResponse.getTransports(), attestationObject.getAuthData(), attestationVerificationResult, serverPublicKeyCredential.getExtensions(), rpId);
+        return getRegisterCredentialResult(
+                session.getRegOptionResponse(), attestationResponse.getTransports(),
+                attestationObject.getAuthData(), attestationVerificationResult,
+                serverPublicKeyCredential.getExtensions(), rpId);
 
     }
 
-    private RegisterCredentialResult getRegisterCredentialResult(RegOptionResponse regOptionResponse, List<AuthenticatorTransport> transports, AuthenticatorData authData, AttestationVerificationResult attestationVerificationResult, AuthenticationExtensionsClientOutputs clientExtensions, String rpId) {
+    private RegisterCredentialResult getRegisterCredentialResult(
+            RegOptionResponse regOptionResponse, List<AuthenticatorTransport> transports,
+            AuthenticatorData authData, AttestationVerificationResult attestationVerificationResult,
+            AuthenticationExtensionsClientOutputs clientExtensions, String rpId) {
         // get credential info
         log.info("Get public key credential info");
         AttestedCredentialData attestedCredentialData = authData.getAttestedCredentialData();

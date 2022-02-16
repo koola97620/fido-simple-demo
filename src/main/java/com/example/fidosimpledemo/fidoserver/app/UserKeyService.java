@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -93,6 +94,7 @@ public class UserKeyService {
             }
         }
 
+        userKeyEntity.setCreatedAt(LocalDateTime.now());
         userKeyRepository.save(userKeyEntity);
         return user;
     }
