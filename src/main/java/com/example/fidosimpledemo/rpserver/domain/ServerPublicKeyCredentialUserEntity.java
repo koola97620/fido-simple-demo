@@ -18,6 +18,8 @@ public class ServerPublicKeyCredentialUserEntity extends PublicKeyCredentialEnti
     private String id;  //base64url encoded
     private String displayName;
 
+    protected ServerPublicKeyCredentialUserEntity() {}
+
 
     private ServerPublicKeyCredentialUserEntity(String id, String displayName) {
         this.id = createUserId(id);

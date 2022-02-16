@@ -1,8 +1,13 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "AUTHENTICATOR_TRANSPORT")
 public class AuthenticatorTransportEntity {
@@ -18,17 +23,7 @@ public class AuthenticatorTransportEntity {
     @NotNull
     private String transport;
 
-    protected AuthenticatorTransportEntity() {}
-
-    public UserKeyEntity getUserKey() {
-        return userKeyEntity;
-    }
-
-    public void setUserKey(UserKeyEntity userKeyEntity) {
-        this.userKeyEntity = userKeyEntity;
-    }
-
-    public String getTransport() {
-        return transport;
+    public AuthenticatorTransportEntity(@NotNull String transport) {
+        this.transport = transport;
     }
 }

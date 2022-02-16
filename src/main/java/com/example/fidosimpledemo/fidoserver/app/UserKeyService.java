@@ -2,6 +2,7 @@ package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.fidoserver.domain.*;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2CryptoException;
+import com.example.fidosimpledemo.fidoserver.exception.FIDO2RpNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.KeyFactory;
@@ -9,17 +10,17 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserKeyService {
 
     private final UserKeyRepository userKeyRepository;
+    private final RpRepository rpRepository;
 
-    public UserKeyService(UserKeyRepository userKeyRepository) {
+    public UserKeyService(UserKeyRepository userKeyRepository, RpRepository rpRepository) {
         this.userKeyRepository = userKeyRepository;
+        this.rpRepository = rpRepository;
     }
 
     public List<UserKey> getUserKeyByRpIdAndUserId(String rpId, String userId) {
@@ -61,6 +62,7 @@ public class UserKeyService {
                 .builder()
                 .aaguid(userKeyEntity.getAaguid())
                 .algorithm(algorithm)
+                .attestationType(userKeyEntity.getAttestationType())
                 .credentialId(userKeyEntity.getCredentialId())
                 .userId(userKeyEntity.getUserId())
                 .userName(userKeyEntity.getUsername())
@@ -72,6 +74,56 @@ public class UserKeyService {
                 .rk(userKeyEntity.getRk())
                 .createdAt(userKeyEntity.getCreatedAt())
                 .lastAuthenticatedAt(userKeyEntity.getLastAuthenticatedAt());
+
+        return builder.build();
+    }
+
+    public boolean containsCredential(String rpId, String credentialId) {
+        return userKeyRepository.findByRpEntityIdAndCredentialId(rpId, credentialId).isPresent();
+    }
+
+    public UserKey createUser(UserKey user) {
+        UserKeyEntity userKeyEntity = convert(user);
+
+        if (user.getTransports() != null && !user.getTransports().isEmpty()) {
+            for (AuthenticatorTransport authenticatorTransport : user.getTransports()) {
+                AuthenticatorTransportEntity authenticatorTransportEntity = new AuthenticatorTransportEntity(authenticatorTransport.getValue());
+                authenticatorTransportEntity.setUserKeyEntity(userKeyEntity);
+                userKeyEntity.getTransports().add(authenticatorTransportEntity);
+            }
+        }
+
+        userKeyRepository.save(userKeyEntity);
+        return user;
+    }
+
+    private UserKeyEntity convert(UserKey userKey) {
+        Optional<RpEntity> optionalRpEntity = rpRepository.findById(userKey.getRpId());
+        RpEntity rpEntity;
+        if (optionalRpEntity.isPresent()) {
+            rpEntity = optionalRpEntity.get();
+        } else {
+            throw new FIDO2RpNotFoundException("Not Found RpId: " + userKey.getRpId());
+        }
+
+        UserKeyEntity.UserKeyEntityBuilder builder = UserKeyEntity
+                .builder()
+                .rpEntity(rpEntity)
+                .publicKey(Base64.getUrlEncoder().withoutPadding().encodeToString(userKey.getPublicKey().getEncoded()))
+                .userIcon(userKey.getIcon())
+                .userId(userKey.getUserId())
+                .aaguid(userKey.getAaguid())
+                .attestationType(userKey.getAttestationType())
+                .credentialId(userKey.getCredentialId())
+                .signatureAlgorithm(userKey.getAlgorithm().getValue())
+                .signCounter(userKey.getSignCounter())
+                .username(userKey.getUserName())
+                .transports(new ArrayList<>())
+                .rk(userKey.getRk());
+
+//        if (userKey.getCredProtect() == null) {
+//            builder.credProtect(CredentialProtectionPolicy.USER_VERIFICATION_OPTIONAL.getValue());  // default
+//        }
 
         return builder.build();
     }

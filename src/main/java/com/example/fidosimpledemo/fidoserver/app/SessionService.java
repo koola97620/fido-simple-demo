@@ -2,6 +2,7 @@ package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.common.crypto.HmacUtil;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2CryptoException;
+import com.example.fidosimpledemo.fidoserver.exception.FIDO2SessionAlreadyServedException;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -35,5 +36,13 @@ public class SessionService {
 
     public void save(Session session) {
         sessionRepository.save(session);
+    }
+
+    public Session getSession(String sessionId) {
+        Session session = sessionRepository.getSession(sessionId);
+        if (session.isServed()) {
+            throw new FIDO2SessionAlreadyServedException("Session is served for session id: " + sessionId);
+        }
+        return session;
     }
 }

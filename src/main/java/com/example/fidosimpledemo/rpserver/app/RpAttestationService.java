@@ -11,12 +11,12 @@ import com.example.fidosimpledemo.rpserver.infra.FidoApiClient;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AttestationService {
+public class RpAttestationService {
 
     private final RpQueryService rpQueryService;
     private final FidoApiClient fidoApiClient;
 
-    public AttestationService(RpQueryService rpQueryService, FidoApiClient fidoApiClient) {
+    public RpAttestationService(RpQueryService rpQueryService, FidoApiClient fidoApiClient) {
         this.rpQueryService = rpQueryService;
         this.fidoApiClient = fidoApiClient;
     }
@@ -60,7 +60,7 @@ public class AttestationService {
         registerCredential.setSessionId(sessionId);
         registerCredential.setOrigin(origin);
 
-        RegisterCredentialResult registerCredentialResult = fidoApiClient.sendRegistrationResponse(registerCredential);
+        fidoApiClient.sendRegistrationResponse(registerCredential);
 
         AdapterServerResponse response = new AdapterServerResponse();
         response.setStatus(Status.OK);

@@ -1,15 +1,20 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
 
-import lombok.Getter;
+import com.example.fidosimpledemo.rpserver.dto.AttestationType;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "USER_KEY")
 public class UserKeyEntity {
@@ -44,6 +49,9 @@ public class UserKeyEntity {
     @Column
     private Long signCounter;
 
+    @Column
+    private AttestationType attestationType;
+
     @OneToMany(mappedBy = "userKeyEntity", cascade = CascadeType.ALL)
     private List<AuthenticatorTransportEntity> transports = new ArrayList<>();
 
@@ -57,7 +65,5 @@ public class UserKeyEntity {
 
     @Column
     private LocalDateTime lastAuthenticatedAt;
-
-
 
 }

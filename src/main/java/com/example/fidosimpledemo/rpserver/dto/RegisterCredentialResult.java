@@ -21,7 +21,7 @@ public class RegisterCredentialResult implements ServerAPIResult {
     private String aaguid;
     private String credentialId;
     private AuthenticatorAttachment authenticatorAttachment;
-    //private AttestationType attestationType;
+    private AttestationType attestationType;
     private List<AuthenticatorTransport> authenticatorTransports;   // list of available authenticator transport
     private boolean userVerified;
     private Boolean rk; // RP can decided UX flow by looking at this

@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
+import com.example.fidosimpledemo.rpserver.dto.AttestationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class UserKey {
     private PublicKey publicKey;
     private COSEAlgorithm algorithm;
     private Long signCounter;
+    private AttestationType attestationType;
     private List<AuthenticatorTransport> transports;
     private Boolean rk;
     private LocalDateTime createdAt;

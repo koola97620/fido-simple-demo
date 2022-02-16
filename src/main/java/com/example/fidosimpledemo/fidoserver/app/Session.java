@@ -2,11 +2,11 @@ package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.rpserver.dto.AuthOptionResponse;
 import com.example.fidosimpledemo.rpserver.dto.RegOptionResponse;
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.Id;
 
-@Getter
+@Data
 public class Session {
     @Id
     private String id;
@@ -15,15 +15,4 @@ public class Session {
     private AuthOptionResponse authOptionResponse;
     private boolean served;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setHmacKey(String hmacKey) {
-        this.hmacKey = hmacKey;
-    }
-
-    public void setRegOptionResponse(RegOptionResponse response) {
-        this.regOptionResponse = response;
-    }
 }
