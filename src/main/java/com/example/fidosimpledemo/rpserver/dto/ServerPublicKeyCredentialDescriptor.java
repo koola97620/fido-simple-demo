@@ -3,9 +3,11 @@ package com.example.fidosimpledemo.rpserver.dto;
 import com.example.fidosimpledemo.fidoserver.domain.AuthenticatorTransport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ServerPublicKeyCredentialDescriptor {
     private PublicKeyCredentialType type;
     private String id;

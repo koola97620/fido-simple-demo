@@ -52,7 +52,7 @@ public class UserKeyEntity {
     @Column
     private AttestationType attestationType;
 
-    @OneToMany(mappedBy = "userKeyEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userKeyEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AuthenticatorTransportEntity> transports = new ArrayList<>();
 
     @Column

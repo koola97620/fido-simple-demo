@@ -43,7 +43,7 @@ public class UserKeyService {
             } else if (algorithm.isEdDSAAlgorithm()) {
                 keyFactory = KeyFactory.getInstance("EdDSA");
             } else {
-                keyFactory = KeyFactory.getInstance("ECDSA");
+                keyFactory = KeyFactory.getInstance("EC");
             }
             publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

@@ -4,24 +4,27 @@ import com.example.fidosimpledemo.common.crypto.COSEAlgorithmIdentifier;
 import com.example.fidosimpledemo.common.crypto.ChallengeGenerator;
 import com.example.fidosimpledemo.common.crypto.ServerConstant;
 import com.example.fidosimpledemo.fidoserver.domain.UserKey;
+import com.example.fidosimpledemo.fidoserver.exception.FIDO2AllowCredentialNotFoundException;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2RpNotFoundException;
 import com.example.fidosimpledemo.fidoserver.exception.InternalErrorCode;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Service
-public class CreateChallengeService {
+public class ChallengeService {
 
     private final RpService rpService;
     private final UserKeyService userKeyService;
     private final SessionService sessionService;
 
-    public CreateChallengeService(RpService rpService, UserKeyService userKeyService, SessionService sessionService) {
+    public ChallengeService(RpService rpService, UserKeyService userKeyService, SessionService sessionService) {
         this.rpService = rpService;
         this.userKeyService = userKeyService;
         this.sessionService = sessionService;
@@ -77,8 +80,7 @@ public class CreateChallengeService {
 
     private List<ServerPublicKeyCredentialDescriptor> getExcludeAndIncludeCredentials(List<UserKey> userKeys) {
         List<ServerPublicKeyCredentialDescriptor> publicKeyCredentialDescriptors = new ArrayList<>();
-        if (userKeys != null &&
-                !userKeys.isEmpty()) {
+        if (userKeys != null && !userKeys.isEmpty()) {
             for (UserKey userKey : userKeys) {
                 ServerPublicKeyCredentialDescriptor serverPublicKeyCredentialDescriptor =
                         ServerPublicKeyCredentialDescriptor.builder()
@@ -91,5 +93,49 @@ public class CreateChallengeService {
         }
 
         return publicKeyCredentialDescriptors;
+    }
+
+    public AuthOptionResponse getAuthChallenge(AuthOptionRequest authOptionRequest) {
+        String rpId = authOptionRequest.getRpId();
+        String userId = authOptionRequest.getUserId();
+        log.debug("getAuthChallenge: rpId={}, userId={}", rpId, userId);
+
+        if (!rpService.containsRp(rpId)) {
+            throw new FIDO2RpNotFoundException(rpId);
+        }
+
+        List<UserKey> userKeys = userKeyService.getUserKeyByRpIdAndUserId(rpId, userId);
+        Session session = sessionService.createSessionData();
+
+        AuthOptionResponse authOptionResponse = AuthOptionResponse.builder()
+                .challenge(ChallengeGenerator.generate(ServerConstant.SERVER_CHALLENGE_LENGTH))
+                .timeout(180000L)
+                .rpId(rpId)
+                .allowCredentials(getAllowCredentials(userKeys, userId))
+                .sessionId(session.getId())
+                .serverResponse(
+                        ServerResponse.builder()
+                                .internalErrorCode(InternalErrorCode.SUCCESS.getCode())
+                                .internalError(InternalErrorCode.SUCCESS.name())
+                                .build()
+                )
+                .build();
+
+        session.setAuthOptionResponse(authOptionResponse);
+        sessionService.save(session);
+
+        log.debug("=== authOptionResponse: {}", authOptionResponse);
+        return authOptionResponse;
+    }
+
+    private List<ServerPublicKeyCredentialDescriptor> getAllowCredentials(List<UserKey> userKeys, String userId) {
+        List<ServerPublicKeyCredentialDescriptor> allowCredentials = getExcludeAndIncludeCredentials(userKeys);
+        if (!ObjectUtils.isEmpty(userId)) {
+            // if there is no credentials for dedicated to the userId, throw an error
+            if (allowCredentials.isEmpty()) {
+                throw new FIDO2AllowCredentialNotFoundException("CREDENTIAL_NOT_FOUND:User Id: " + userId);
+            }
+        }
+        return allowCredentials;
     }
 }
