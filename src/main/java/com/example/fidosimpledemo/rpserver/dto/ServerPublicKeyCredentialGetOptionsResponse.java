@@ -1,26 +1,25 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(NON_NULL)
-@ToString
-public class AuthOptionResponse implements ServerAPIResult{
-    private ServerResponse serverResponse;
+public class ServerPublicKeyCredentialGetOptionsResponse extends AdapterServerResponse{
     private String challenge;
     private long timeout;
     private String rpId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ServerPublicKeyCredentialDescriptor> allowCredentials;
-    //private UserVerificationRequirement userVerification;
-    private String sessionId;
-    // extension
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    private UserVerificationRequirement userVerification;
+    //extensions
     private AuthenticationExtensionsClientInputs extensions;
 }

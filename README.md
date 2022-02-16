@@ -8,17 +8,17 @@ Versions
 ## 기능구현목록
 
 ### 등록 api
-- [x] /rpEntity/attestation/options
+- [x] /rp/attestation/options
   - userId 생성
 - [x] /fido2/req/challenge
   - challenge 생성
-- [x] /rpEntity/attestation/result
+- [x] /rp/attestation/result
 - [x] /fido2/req/response
 
 ### 인증 api
-- [ ] /rpEntity/assertion/options
+- [x] /rp/assertion/options
 - [ ] /fido2/auth/challenge
-- [ ] /rpEntity/assertion/result
+- [ ] /rp/assertion/result
 - [ ] /fido2/auth/response
 
 ### View

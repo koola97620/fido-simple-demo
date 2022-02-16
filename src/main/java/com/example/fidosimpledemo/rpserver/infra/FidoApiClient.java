@@ -1,9 +1,7 @@
 package com.example.fidosimpledemo.rpserver.infra;
 
 import com.example.fidosimpledemo.rpserver.api.RegisterCredential;
-import com.example.fidosimpledemo.rpserver.dto.RegOptionRequest;
-import com.example.fidosimpledemo.rpserver.dto.RegOptionResponse;
-import com.example.fidosimpledemo.rpserver.dto.RegisterCredentialResult;
+import com.example.fidosimpledemo.rpserver.dto.*;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,4 +16,8 @@ public interface FidoApiClient {
     @PostMapping("/fido2/req/response")
     @Headers(value = {})
     RegisterCredentialResult sendRegistrationResponse(RegisterCredential registerCredential);
+
+    @PostMapping("/fido2/auth/challenge")
+    @Headers(value = {})
+    AuthOptionResponse getAuthChallenge(AuthOptionRequest authOptionRequest);
 }

@@ -22,24 +22,16 @@ public class ServerPublicKeyCredentialUserEntity extends PublicKeyCredentialEnti
 
 
     private ServerPublicKeyCredentialUserEntity(String id, String displayName) {
-        this.id = createUserId(id);
+        this.id = id;
         this.displayName = displayName;
     }
 
-    public static ServerPublicKeyCredentialUserEntity of(ServerPublicKeyCredentialCreationOptionsRequest request) {
-        return new ServerPublicKeyCredentialUserEntity(request.getUsername(), request.getDisplayName());
+    public static ServerPublicKeyCredentialUserEntity of(String id, String displayName) {
+        return new ServerPublicKeyCredentialUserEntity(id, displayName);
     }
 
     public static ServerPublicKeyCredentialUserEntity of(String loginId) {
         return new ServerPublicKeyCredentialUserEntity(loginId, "");
     }
 
-    private String createUserId(String username) {
-        if (ObjectUtils.isEmpty(username)) {
-            return null;
-        }
-
-        byte[] digest = Digests.sha256(username.getBytes(StandardCharsets.UTF_8));
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
-    }
 }

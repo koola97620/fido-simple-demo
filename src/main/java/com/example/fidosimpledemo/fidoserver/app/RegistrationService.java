@@ -50,7 +50,8 @@ public class RegistrationService {
         return getRegisterCredentialResult(
                 session.getRegOptionResponse(), attestationResponse.getTransports(),
                 attestationObject.getAuthData(), attestationVerificationResult,
-                serverPublicKeyCredential.getExtensions(), rpId);
+                serverPublicKeyCredential.getExtensions(), rpId
+        );
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.rpserver.api;
 
+import com.example.fidosimpledemo.rpserver.app.RpAssertionService;
 import com.example.fidosimpledemo.rpserver.app.RpAttestationService;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +18,11 @@ public class AttestationApi {
     private final String COOKIE_NAME = "fido2-session-id";
 
     private final RpAttestationService rpAttestationService;
+    private final RpAssertionService rpAssertionService;
 
-    public AttestationApi(RpAttestationService rpAttestationService) {
+    public AttestationApi(RpAttestationService rpAttestationService, RpAssertionService rpAssertionService) {
         this.rpAttestationService = rpAttestationService;
+        this.rpAssertionService = rpAssertionService;
     }
 
     @PostMapping("/rp/attestation/options")
@@ -57,5 +60,19 @@ public class AttestationApi {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         return rpAttestationService.sendRegistration(host, sessionId, builder.toString(), clientResponse);
+    }
+
+    @PostMapping("/rp/assertion/options")
+    public ServerPublicKeyCredentialGetOptionsResponse getAuthenticationChallenge(
+            @RequestHeader String host,
+            @RequestBody ServerPublicKeyCredentialGetOptionsRequest optionRequest,
+            HttpServletResponse httpServletResponse) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        ServerPublicKeyCredentialGetOptionsResponseDto responseDto =
+                rpAssertionService.sendAssertion(host, optionRequest);
+
+        httpServletResponse.addCookie(new Cookie(COOKIE_NAME, responseDto.getSessionId()));
+        return responseDto.getResponse();
     }
 }

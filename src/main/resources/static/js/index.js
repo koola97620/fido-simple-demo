@@ -44,7 +44,119 @@ function registerButtonClicked() {
 }
 
 function authenticateButtonClicked() {
-    console.log("=== authenticateButtonClicked")
+    disableControls();
+    $("#authenticateSpinner").removeClass("hidden");
+
+    let username  = $("input[name='username']").val();
+    // let userVerification = $("input[name='userVerificationRequired']:checked").val();
+
+    // prepare parameter
+    let serverPublicKeyCredentialGetOptionsRequest = {
+        username: username,
+        // userVerification: userVerification
+    };
+
+    getAuthChallenge(serverPublicKeyCredentialGetOptionsRequest)
+        .then(getCredentialOptions => {
+            return getAssertion(getCredentialOptions);
+        })
+        .then(() => {
+            $("#status").text("Successfully verified credential");
+            $("#authenticateSpinner").addClass("hidden");
+            enableControls()
+        }).catch(e => {
+        $("#status").text("Error: " + e);
+        $("#authenticateSpinner").addClass("hidden");
+        $("#status").removeClass('hidden');
+        enableControls()
+    });
+}
+
+function getAuthChallenge(serverPublicKeyCredentialGetOptionsRequest) {
+    logObject("Get auth challenge", serverPublicKeyCredentialGetOptionsRequest);
+    return rest_post("/rp/assertion/options", serverPublicKeyCredentialGetOptionsRequest)
+        .then(response => {
+            logObject("Get auth challenge", response);
+            if (response.status !== 'ok') {
+                return Promise.reject(response.errorMessage);
+            } else {
+                let getCredentialOptions = performGetCredReq(response);
+                return Promise.resolve(getCredentialOptions);
+            }
+        });
+}
+
+function getAssertion(options) {
+    if (!PublicKeyCredential) {
+        return Promise.reject("WebAuthn APIs are not available on this user agent.");
+    }
+
+    return navigator.credentials.get({publicKey: options, signal: abortSignal})
+        .then(rawAssertion => {
+            logObject("raw assertion", rawAssertion);
+
+            let assertion = {
+                rawId: base64UrlEncode(rawAssertion.rawId),
+                id: base64UrlEncode(rawAssertion.rawId),
+                response: {
+                    clientDataJSON: base64UrlEncode(rawAssertion.response.clientDataJSON),
+                    userHandle: base64UrlEncode(rawAssertion.response.userHandle),
+                    signature: base64UrlEncode(rawAssertion.response.signature),
+                    authenticatorData: base64UrlEncode(rawAssertion.response.authenticatorData)
+                },
+                type: rawAssertion.type,
+            };
+
+            if (rawAssertion.getClientExtensionResults) {
+                assertion.extensions = rawAssertion.getClientExtensionResults();
+            }
+
+            console.log("=== Assertion response ===");
+            logVariable("rawId (b64url)", assertion.rawId);
+            logVariable("id (b64url)", assertion.id);
+            logVariable("response.userHandle (b64url)", assertion.response.userHandle);
+            logVariable("response.authenticatorData (b64url)", assertion.response.authenticatorData);
+            logVariable("response.lientDataJSON", assertion.response.clientDataJSON);
+            logVariable("response.signature (b64url)", assertion.response.signature);
+            logVariable("id", assertion.type);
+
+            return rest_post("/rp/assertion/result", assertion);
+        })
+        .catch(function(error) {
+            logVariable("get assertion error", error);
+            if (error == "AbortError") {
+                console.info("Aborted by user");
+            }
+            return Promise.reject(error);
+        })
+        .then(response => {
+            if (response.status !== 'ok') {
+                return Promise.reject(response.errorMessage);
+            } else {
+                return Promise.resolve(response);
+            }
+        });
+}
+
+let performGetCredReq = (getCredReq) => {
+    getCredReq.challenge = base64UrlDecode(getCredReq.challenge);
+
+    //Base64url decoding of id in allowCredentials
+    if (getCredReq.allowCredentials instanceof Array) {
+        for (let i of getCredReq.allowCredentials) {
+            if ('id' in i) {
+                i.id = base64UrlDecode(i.id);
+            }
+        }
+    }
+
+    delete getCredReq.status;
+    delete getCredReq.errorMessage;
+
+    removeEmpty(getCredReq);
+
+    logObject("Updating credentials ", getCredReq)
+    return getCredReq;
 }
 
 

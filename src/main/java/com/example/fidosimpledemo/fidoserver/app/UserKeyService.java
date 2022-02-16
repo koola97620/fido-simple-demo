@@ -28,7 +28,7 @@ public class UserKeyService {
         List<UserKey> userKeys = new ArrayList<>();
         userKeyRepository.findAllByRpEntityIdAndUserId(rpId, userId)
                 .forEach(userKeyEntity -> userKeys.add(convert(userKeyEntity)));
-        return null;
+        return userKeys;
     }
 
     private UserKey convert(UserKeyEntity userKeyEntity) {

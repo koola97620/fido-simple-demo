@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.rpserver.app;
 
+import com.example.fidosimpledemo.common.crypto.Digests;
 import com.example.fidosimpledemo.fidoserver.query.RpQueryService;
 import com.example.fidosimpledemo.rpserver.api.RegisterCredential;
 import com.example.fidosimpledemo.rpserver.api.ServerRegPublicKeyCredential;
@@ -9,6 +10,10 @@ import com.example.fidosimpledemo.fidoserver.domain.RpEntity;
 import com.example.fidosimpledemo.rpserver.domain.ServerPublicKeyCredentialUserEntity;
 import com.example.fidosimpledemo.rpserver.infra.FidoApiClient;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Service
 public class RpAttestationService {
@@ -77,7 +82,8 @@ public class RpAttestationService {
         rp.setName(rpEntity.getName());
         rp.setIcon(rpEntity.getIcon());
 
-        ServerPublicKeyCredentialUserEntity user = ServerPublicKeyCredentialUserEntity.of(request);
+        ServerPublicKeyCredentialUserEntity user =
+                ServerPublicKeyCredentialUserEntity.of(createUserId(request.getUsername()), request.getDisplayName());
         user.setName(request.getUsername());
         return RegOptionRequest.builder()
                 .rp(rp)
@@ -86,5 +92,14 @@ public class RpAttestationService {
                 .attestation(request.getAttestation())
                 .credProtect(request.getCredProtect())
                 .build();
+    }
+
+    private String createUserId(String username) {
+        if (ObjectUtils.isEmpty(username)) {
+            return null;
+        }
+
+        byte[] digest = Digests.sha256(username.getBytes(StandardCharsets.UTF_8));
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
     }
 }
