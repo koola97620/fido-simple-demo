@@ -3,6 +3,21 @@ $(window).on('load', function () {
     $("#register").on('click', () => registerButtonClicked());
     $("#authenticate").on('click', () => authenticateButtonClicked());
 
+    if (PublicKeyCredential && typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable !== "function") {
+        markPlatformAuthenticatorUnavailable();
+    } else if (PublicKeyCredential && typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === "function") {
+        PublicKeyCredential
+            .isUserVerifyingPlatformAuthenticatorAvailable()
+            .then(available => {
+                if (!available) {
+                    markPlatformAuthenticatorUnavailable();
+                }
+            })
+            .catch(e => {
+                markPlatformAuthenticatorUnavailable();
+            });
+    }
+
 
 });
 
@@ -342,4 +357,12 @@ function base64UrlDecode(base64url) {
     }
 
     return Uint8Array.from(atob(input), c => c.charCodeAt(0));
+}
+
+function markPlatformAuthenticatorUnavailable() {
+    $('label[for="attachmentPlatform"]').html('On bound (platform) authenticator <span class="errorText">- Reported as not available</span>');
+    // do not disable selection
+    // $('#attachmentPlatform').attr('checked', false);
+    // $('#attachmentPlatform').attr('disabled', true);
+    // $('#attachmentCrossPlatform').attr('checked', true);
 }

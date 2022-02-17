@@ -1,17 +1,14 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
 import com.example.fidosimpledemo.rpserver.dto.AttestationType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.NamedAttributeNode;
 import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -19,12 +19,12 @@ Versions
 - [x] /rp/assertion/options
 - [x] /fido2/auth/challenge
 - [x] /rp/assertion/result
-- [ ] /fido2/auth/response
+- [x] /fido2/auth/response
 
 ### View
 - [x] ID 입력화면
 - [x] 등록 (Javascript, Web Authentication API)
-- [ ] 인증 (Javascript, Web Authentication API)
+- [x] 인증 (Javascript, Web Authentication API)
 
 
 ## 참고

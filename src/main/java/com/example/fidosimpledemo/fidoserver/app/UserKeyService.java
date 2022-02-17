@@ -3,7 +3,9 @@ package com.example.fidosimpledemo.fidoserver.app;
 import com.example.fidosimpledemo.fidoserver.domain.*;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2CryptoException;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2RpNotFoundException;
+import com.example.fidosimpledemo.fidoserver.exception.FIDO2UserKeyNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -83,7 +85,7 @@ public class UserKeyService {
         return userKeyRepository.findByRpEntityIdAndCredentialId(rpId, credentialId).isPresent();
     }
 
-    public UserKey createUser(UserKey user) {
+    public UserKey saveUser(UserKey user) {
         UserKeyEntity userKeyEntity = convert(user);
 
         if (user.getTransports() != null && !user.getTransports().isEmpty()) {
@@ -128,5 +130,24 @@ public class UserKeyService {
 //        }
 
         return builder.build();
+    }
+
+    public UserKey getWithCredentialId(String rpId, String credentialId) {
+        UserKeyEntity userKeyEntity = findByRpEntityIdAndCredentialId(rpId, credentialId);
+        return convert(userKeyEntity);
+    }
+
+    private UserKeyEntity findByRpEntityIdAndCredentialId(String rpId, String credentialId) {
+        return userKeyRepository
+                .findByRpEntityIdAndCredentialId(rpId, credentialId)
+                .orElseThrow( () -> new FIDO2UserKeyNotFoundException("rpId: " + rpId + ",credentialId: " + credentialId));
+    }
+
+    @Transactional
+    public void update(UserKey user) {
+        UserKeyEntity userKeyEntity = findByRpEntityIdAndCredentialId(user.getRpId(), user.getCredentialId());
+        userKeyEntity.setSignCounter(user.getSignCounter());
+        userKeyEntity.setLastAuthenticatedAt(LocalDateTime.now());
+        userKeyRepository.save(userKeyEntity);
     }
 }
