@@ -41,6 +41,16 @@ function registerButtonClicked() {
         displayName: displayName
     };
 
+    let requireResidentKey = true;
+    //  let userVerification = "preferred";
+    let attachment = "cross-platform";
+    let authenticatorSelection = {
+        requireResidentKey: requireResidentKey,
+        // userVerification: userVerification,
+        authenticatorAttachment: attachment
+    };
+    serverPublicKeyCredentialCreationOptionsRequest.authenticatorSelection = authenticatorSelection;
+
     getRegChallenge(serverPublicKeyCredentialCreationOptionsRequest)
         .then(createCredentialOptions => {
             return createCredential(createCredentialOptions);
