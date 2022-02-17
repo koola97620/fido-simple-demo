@@ -18,7 +18,7 @@ Versions
 ### 인증 api
 - [x] /rp/assertion/options
 - [x] /fido2/auth/challenge
-- [ ] /rp/assertion/result
+- [x] /rp/assertion/result
 - [ ] /fido2/auth/response
 
 ### View

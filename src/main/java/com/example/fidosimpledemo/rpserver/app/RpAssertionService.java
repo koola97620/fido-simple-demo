@@ -24,7 +24,7 @@ public class RpAssertionService {
     }
 
     public ServerPublicKeyCredentialGetOptionsResponseDto sendAssertion(String host, ServerPublicKeyCredentialGetOptionsRequest optionRequest) {
-        RpEntity rpEntity = rpQueryService.getRpEntity(host);
+        RpEntity rpEntity = getRpEntity(host);
 
         AuthOptionRequest authOptionRequest = AuthOptionRequest
                 .builder()
@@ -52,6 +52,27 @@ public class RpAssertionService {
                 .build();
     }
 
+    public AdapterServerResponse sendAuthenticationResponse(String host, String sessionId, String origin, AdapterAuthServerPublicKeyCredential clientResponse) {
+        RpEntity rpEntity = getRpEntity(host);
+
+        VerifyCredentialRequest verifyCredentialRequest = new VerifyCredentialRequest();
+        ServerAuthPublicKeyCredential serverAuthPublicKeyCredential = new ServerAuthPublicKeyCredential();
+        serverAuthPublicKeyCredential.setResponse(clientResponse.getResponse());
+        serverAuthPublicKeyCredential.setId(clientResponse.getId());
+        serverAuthPublicKeyCredential.setType(clientResponse.getType());
+        serverAuthPublicKeyCredential.setExtensions(clientResponse.getExtensions());
+        verifyCredentialRequest.setServerPublicKeyCredential(serverAuthPublicKeyCredential);
+        verifyCredentialRequest.setRpId(rpEntity.getId());
+        verifyCredentialRequest.setSessionId(sessionId);
+        verifyCredentialRequest.setOrigin(origin);
+
+        fidoApiClient.sendAuthenticationResponse(verifyCredentialRequest);
+
+        AdapterServerResponse serverResponse = new AdapterServerResponse();
+        serverResponse.setStatus(Status.OK);
+        return serverResponse;
+    }
+
     private String createUserId(String username) {
         if (ObjectUtils.isEmpty(username)) {
             return null;
@@ -59,5 +80,9 @@ public class RpAssertionService {
 
         byte[] digest = Digests.sha256(username.getBytes(StandardCharsets.UTF_8));
         return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
+    }
+
+    private RpEntity getRpEntity(String host) {
+        return rpQueryService.getRpEntity(host);
     }
 }

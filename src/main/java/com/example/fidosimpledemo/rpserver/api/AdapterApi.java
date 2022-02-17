@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class AttestationApi {
+public class AdapterApi {
     private final String COOKIE_NAME = "fido2-session-id";
 
     private final RpAttestationService rpAttestationService;
     private final RpAssertionService rpAssertionService;
 
-    public AttestationApi(RpAttestationService rpAttestationService, RpAssertionService rpAssertionService) {
+    public AdapterApi(RpAttestationService rpAttestationService, RpAssertionService rpAssertionService) {
         this.rpAttestationService = rpAttestationService;
         this.rpAssertionService = rpAssertionService;
     }
@@ -74,5 +74,34 @@ public class AttestationApi {
 
         httpServletResponse.addCookie(new Cookie(COOKIE_NAME, responseDto.getSessionId()));
         return responseDto.getResponse();
+    }
+
+    @PostMapping("/rp/assertion/result")
+    public AdapterServerResponse sendAuthenticationResponse(
+            @RequestHeader String host,
+            @RequestBody AdapterAuthServerPublicKeyCredential clientResponse,
+            HttpServletRequest httpServletRequest) {
+
+        Cookie[] cookies = httpServletRequest.getCookies();
+        if (cookies == null || cookies.length == 0) {
+            return AdapterServerResponse.failed();
+        }
+
+        String sessionId = null;
+        for (Cookie cookie : cookies) {
+            if (COOKIE_NAME.equals(cookie.getName())) {
+                sessionId = cookie.getValue();
+                break;
+            }
+        }
+
+        StringBuilder builder = new StringBuilder()
+                .append(httpServletRequest.getScheme())
+                .append("://")
+                .append(host);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        AdapterServerResponse adapterServerResponse = rpAssertionService.sendAuthenticationResponse(host, sessionId, builder.toString(), clientResponse);
+        return adapterServerResponse;
     }
 }

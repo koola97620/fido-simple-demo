@@ -20,4 +20,8 @@ public interface FidoApiClient {
     @PostMapping("/fido2/auth/challenge")
     @Headers(value = {})
     AuthOptionResponse getAuthChallenge(AuthOptionRequest authOptionRequest);
+
+    @PostMapping("/fido2/auth/response")
+    @Headers(value = {})
+    VerifyCredentialResult sendAuthenticationResponse(VerifyCredentialRequest verifyCredentialRequest);
 }
