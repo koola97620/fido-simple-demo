@@ -1,6 +1,6 @@
 package com.example.fidosimpledemo.rpserver.infra;
 
-import com.example.fidosimpledemo.rpserver.api.RegisterCredential;
+import com.example.fidosimpledemo.common.model.*;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.common.model.Credential;
 import lombok.Data;
 
 import javax.validation.Valid;

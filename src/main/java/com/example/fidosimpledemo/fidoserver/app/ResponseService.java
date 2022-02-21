@@ -1,10 +1,14 @@
 package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.common.crypto.Digests;
+import com.example.fidosimpledemo.common.model.ServerResponse;
+import com.example.fidosimpledemo.common.model.VerifyCredentialResult;
 import com.example.fidosimpledemo.fidoserver.domain.*;
+import com.example.fidosimpledemo.fidoserver.domain.AttestationObject;
 import com.example.fidosimpledemo.fidoserver.exception.*;
-import com.example.fidosimpledemo.rpserver.api.ServerRegPublicKeyCredential;
-import com.example.fidosimpledemo.rpserver.api.TokenBinding;
+import com.example.fidosimpledemo.fidoserver.util.*;
+import com.example.fidosimpledemo.common.model.ServerRegPublicKeyCredential;
+import com.example.fidosimpledemo.common.model.TokenBinding;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

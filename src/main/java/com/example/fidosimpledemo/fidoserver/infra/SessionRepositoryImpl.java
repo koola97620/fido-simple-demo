@@ -1,7 +1,7 @@
 package com.example.fidosimpledemo.fidoserver.infra;
 
-import com.example.fidosimpledemo.fidoserver.app.Session;
-import com.example.fidosimpledemo.fidoserver.app.SessionRepository;
+import com.example.fidosimpledemo.fidoserver.domain.Session;
+import com.example.fidosimpledemo.fidoserver.domain.SessionRepository;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2SessionNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

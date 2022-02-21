@@ -1,5 +1,7 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.fidoserver.domain.AuthenticatorAttachment;
+import com.example.fidosimpledemo.rpserver.domain.UserVerificationRequirement;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 

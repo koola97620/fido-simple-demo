@@ -1,7 +1,7 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.rpserver.domain.AttestationConveyancePreference;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class ServerPublicKeyCredentialCreationOptionsRequest {

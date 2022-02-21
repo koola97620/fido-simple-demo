@@ -2,8 +2,9 @@ package com.example.fidosimpledemo.rpserver.app;
 
 import com.example.fidosimpledemo.common.crypto.Digests;
 import com.example.fidosimpledemo.fidoserver.query.RpQueryService;
-import com.example.fidosimpledemo.rpserver.api.RegisterCredential;
-import com.example.fidosimpledemo.rpserver.api.ServerRegPublicKeyCredential;
+import com.example.fidosimpledemo.common.model.RegisterCredential;
+import com.example.fidosimpledemo.common.model.ServerRegPublicKeyCredential;
+import com.example.fidosimpledemo.rpserver.domain.Status;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import com.example.fidosimpledemo.rpserver.domain.PublicKeyCredentialRpEntity;
 import com.example.fidosimpledemo.fidoserver.domain.RpEntity;

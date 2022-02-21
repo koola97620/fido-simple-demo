@@ -1,6 +1,7 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
 import com.example.fidosimpledemo.fidoserver.domain.AuthenticatorTransport;
+import com.example.fidosimpledemo.rpserver.domain.PublicKeyCredentialType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.rpserver.domain.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,5 +1,7 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.common.model.ServerResponse;
+import com.example.fidosimpledemo.rpserver.domain.AttestationConveyancePreference;
 import com.example.fidosimpledemo.rpserver.domain.PublicKeyCredentialRpEntity;
 import com.example.fidosimpledemo.rpserver.domain.ServerPublicKeyCredentialUserEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;

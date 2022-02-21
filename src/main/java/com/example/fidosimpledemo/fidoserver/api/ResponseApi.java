@@ -1,10 +1,10 @@
 package com.example.fidosimpledemo.fidoserver.api;
 
 import com.example.fidosimpledemo.fidoserver.app.ResponseService;
-import com.example.fidosimpledemo.rpserver.api.RegisterCredential;
+import com.example.fidosimpledemo.common.model.RegisterCredential;
 import com.example.fidosimpledemo.rpserver.dto.RegisterCredentialResult;
-import com.example.fidosimpledemo.rpserver.dto.VerifyCredentialRequest;
-import com.example.fidosimpledemo.rpserver.dto.VerifyCredentialResult;
+import com.example.fidosimpledemo.common.model.VerifyCredentialRequest;
+import com.example.fidosimpledemo.common.model.VerifyCredentialResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

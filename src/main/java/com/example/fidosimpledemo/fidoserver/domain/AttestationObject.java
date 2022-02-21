@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
+import com.example.fidosimpledemo.fidoserver.util.AuthenticatorData;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 

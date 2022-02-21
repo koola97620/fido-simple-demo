@@ -1,6 +1,8 @@
 package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.common.crypto.HmacUtil;
+import com.example.fidosimpledemo.fidoserver.domain.Session;
+import com.example.fidosimpledemo.fidoserver.domain.SessionRepository;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2CryptoException;
 import com.example.fidosimpledemo.fidoserver.exception.FIDO2SessionAlreadyServedException;
 import org.springframework.stereotype.Service;

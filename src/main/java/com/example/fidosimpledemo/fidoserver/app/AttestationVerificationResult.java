@@ -1,7 +1,7 @@
 package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.fidoserver.domain.AttestationStatementFormatIdentifier;
-import com.example.fidosimpledemo.rpserver.dto.AttestationType;
+import com.example.fidosimpledemo.common.model.AttestationType;
 import lombok.Builder;
 import lombok.Data;
 

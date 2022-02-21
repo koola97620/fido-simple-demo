@@ -1,7 +1,6 @@
 package com.example.fidosimpledemo.fidoserver.app;
 
 import com.example.fidosimpledemo.fidoserver.domain.AttestationStatementFormatIdentifier;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

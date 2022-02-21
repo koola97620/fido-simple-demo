@@ -1,8 +1,8 @@
 package com.example.fidosimpledemo.fidoserver.api;
 
 import com.example.fidosimpledemo.fidoserver.app.ChallengeService;
-import com.example.fidosimpledemo.rpserver.dto.AuthOptionRequest;
-import com.example.fidosimpledemo.rpserver.dto.AuthOptionResponse;
+import com.example.fidosimpledemo.common.model.AuthOptionRequest;
+import com.example.fidosimpledemo.common.model.AuthOptionResponse;
 import com.example.fidosimpledemo.rpserver.dto.RegOptionRequest;
 import com.example.fidosimpledemo.rpserver.dto.RegOptionResponse;
 import org.springframework.web.bind.annotation.PostMapping;

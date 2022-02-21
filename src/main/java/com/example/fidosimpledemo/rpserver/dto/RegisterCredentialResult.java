@@ -1,6 +1,9 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.common.model.AttestationType;
+import com.example.fidosimpledemo.common.model.ServerResponse;
 import com.example.fidosimpledemo.fidoserver.domain.AuthenticatorTransport;
+import com.example.fidosimpledemo.fidoserver.domain.AuthenticatorAttachment;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

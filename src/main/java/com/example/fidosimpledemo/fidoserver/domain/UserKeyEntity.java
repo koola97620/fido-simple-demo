@@ -1,14 +1,13 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
 
-import com.example.fidosimpledemo.rpserver.dto.AttestationType;
+import com.example.fidosimpledemo.common.model.AttestationType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data

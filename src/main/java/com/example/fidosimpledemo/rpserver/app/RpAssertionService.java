@@ -1,13 +1,16 @@
 package com.example.fidosimpledemo.rpserver.app;
 
 import com.example.fidosimpledemo.common.crypto.Digests;
+import com.example.fidosimpledemo.common.model.AuthOptionRequest;
+import com.example.fidosimpledemo.common.model.AuthOptionResponse;
+import com.example.fidosimpledemo.common.model.VerifyCredentialRequest;
 import com.example.fidosimpledemo.fidoserver.domain.RpEntity;
 import com.example.fidosimpledemo.fidoserver.query.RpQueryService;
+import com.example.fidosimpledemo.rpserver.domain.Status;
 import com.example.fidosimpledemo.rpserver.dto.*;
 import com.example.fidosimpledemo.rpserver.infra.FidoApiClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

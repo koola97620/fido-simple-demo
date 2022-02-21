@@ -1,9 +1,8 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
-import com.example.fidosimpledemo.rpserver.dto.AttestationType;
+import com.example.fidosimpledemo.common.model.AttestationType;
 import lombok.*;
 
-import javax.persistence.NamedAttributeNode;
 import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.List;

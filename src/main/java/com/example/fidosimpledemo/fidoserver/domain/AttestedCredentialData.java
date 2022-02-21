@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
+import com.example.fidosimpledemo.fidoserver.util.CredentialPublicKey;
 import lombok.Data;
 
 @Data

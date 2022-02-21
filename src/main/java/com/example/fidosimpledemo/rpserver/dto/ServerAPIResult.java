@@ -1,5 +1,6 @@
 package com.example.fidosimpledemo.rpserver.dto;
 
+import com.example.fidosimpledemo.common.model.ServerResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public interface ServerAPIResult {

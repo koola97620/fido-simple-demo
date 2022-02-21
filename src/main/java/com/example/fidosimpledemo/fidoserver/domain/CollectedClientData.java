@@ -1,6 +1,6 @@
 package com.example.fidosimpledemo.fidoserver.domain;
 
-import com.example.fidosimpledemo.rpserver.api.TokenBinding;
+import com.example.fidosimpledemo.common.model.TokenBinding;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
