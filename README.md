@@ -26,6 +26,17 @@ Versions
 - [x] 등록 (Javascript, Web Authentication API)
 - [x] 인증 (Javascript, Web Authentication API)
 
+## 실행시 참고
+
+### DB 세팅
+- h2 콘솔에 접속이 안될때
+  - local db 이용하게 포트 변경
+  - window 에서 local h2 포트 다르게 실행하는 법
+    - ./h2.bat -webPort 18088 -tcpPort 19099
+    - WebConsole 접속은 18088, DB 연결은 19099
+- Redis 시작 에러
+  - 6379 포트로 실행중인 프로세스가 있는지 확인할 것
+
 
 ## 참고
 

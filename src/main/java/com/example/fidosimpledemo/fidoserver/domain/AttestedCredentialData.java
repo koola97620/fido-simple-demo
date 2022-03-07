@@ -8,4 +8,8 @@ public class AttestedCredentialData {
     private byte[] aaguid;
     private byte[] credentialId;
     private CredentialPublicKey credentialPublicKey;
+
+    public void setAaguid(byte[] aaguid) {
+        this.aaguid = aaguid;
+    }
 }
